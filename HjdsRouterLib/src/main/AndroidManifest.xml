@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hjds.hjdsrouterlib">
+
+    <application>
+        <provider
+            android:name=".util.HjdsProider"
+            android:authorities="${applicationId}.hjdsrouter-init-provider"
+            android:exported="false"
+            android:multiprocess="true" />
+    </application>
+</manifest>

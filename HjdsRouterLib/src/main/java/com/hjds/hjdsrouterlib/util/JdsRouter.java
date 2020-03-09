@@ -7,6 +7,8 @@ import com.hjds.jrouterannotation.JRouterProvider;
 
 import java.io.Serializable;
 
+import androidx.fragment.app.Fragment;
+
 /**
  * @author zhangxiaowei 2020-03-07
  */
@@ -71,6 +73,11 @@ public class JdsRouter {
             try {
                 String acturl = (String) jRouterProvider.getAllRouter().get(mRoutePath);
                 Class clazz = Class.forName(acturl);
+                if (Fragment.class.isAnnotationPresent(clazz)) {
+                    Fragment fragment = (Fragment) clazz.newInstance();
+                    fragment.setArguments(mIntent.getExtras());
+                    return fragment;
+                }
                 mIntent.setClass(ActivityLifecycleHelper.getLatestActivity(), clazz);
                 ActivityLifecycleHelper.getLatestActivity().startActivity(mIntent);
             } catch (Exception e) {

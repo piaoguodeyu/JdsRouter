@@ -73,13 +73,16 @@ public class JdsRouter {
             try {
                 String acturl = (String) jRouterProvider.getAllRouter().get(mRoutePath);
                 Class clazz = Class.forName(acturl);
-                if (Fragment.class.isAnnotationPresent(clazz)) {
+                if (Fragment.class.isAssignableFrom(clazz)) {
                     Fragment fragment = (Fragment) clazz.newInstance();
                     fragment.setArguments(mIntent.getExtras());
                     return fragment;
+                } else if (Activity.class.isAssignableFrom(clazz)) {
+                    mIntent.setClass(ActivityLifecycleHelper.getLatestActivity(), clazz);
+                    ActivityLifecycleHelper.getLatestActivity().startActivity(mIntent);
+                } else {
+                    return clazz.newInstance();
                 }
-                mIntent.setClass(ActivityLifecycleHelper.getLatestActivity(), clazz);
-                ActivityLifecycleHelper.getLatestActivity().startActivity(mIntent);
             } catch (Exception e) {
                 e.printStackTrace();
             }

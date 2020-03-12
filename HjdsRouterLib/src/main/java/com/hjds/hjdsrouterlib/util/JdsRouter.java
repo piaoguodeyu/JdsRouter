@@ -14,23 +14,11 @@ import androidx.fragment.app.Fragment;
  * @author zhangxiaowei 2020-03-07
  */
 public class JdsRouter {
-    static JRouterProvider jRouterProvider;
     String mRoutePath;
     Intent mIntent;
 
     private JdsRouter(String url) {
         mRoutePath = url;
-        if (jRouterProvider == null) {
-            synchronized (JdsRouter.class) {
-                try {
-                    Class clazz = Class.forName("com.hjds.hjdsrouterlib.JRouterProviderImp");
-                    if (clazz != null)
-                        jRouterProvider = (JRouterProvider) clazz.newInstance();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
         mIntent = new Intent();
     }
 
@@ -71,7 +59,7 @@ public class JdsRouter {
 
     public Object navigation() {
         try {
-            Class clazz = (Class) jRouterProvider.getAllRouter().get(mRoutePath);
+            Class clazz = (Class) RouterUtil.getInstance().getAllRouter().get(mRoutePath);
             if (clazz == null) {
                 Log.e("navigation", " acturl= " + mRoutePath + " clazz=null ");
                 return null;

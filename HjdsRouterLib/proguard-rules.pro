@@ -19,3 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+#-keep @com.hjds.jrouterannotation.Router class * {*;}
+-keep public class com.hjds.hjdsrouterlib.util.ActivityLifecycleHelper {*;}
+-keep public class com.hjds.hjdsrouterlib.util.JRouter {*;}
+-keep class * extends java.lang.annotation.Annotation { *; }
+-keep interface * extends java.lang.annotation.Annotation { *; }
+
+

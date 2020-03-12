@@ -1,2 +1,6 @@
-include ':app', ':HjdsRouterLib', ':HjdsRouterProcessor', ':JRouterAnnotation', ':LoginLib'
+include ':app'
 //rootProject.name='JdsRouter'
+include  ':HjdsRouterLib'
+include  ':HjdsRouterProcessor'
+include  ':JRouterAnnotation'
+

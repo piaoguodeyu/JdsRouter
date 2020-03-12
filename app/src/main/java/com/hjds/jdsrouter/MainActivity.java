@@ -17,19 +17,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        MyFragment myFragment=new MyFragment();
+        MyFragment myFragment = new MyFragment();
         TextView textView = findViewById(R.id.tttttt);
         textView.setText(this.getClass().getName());
-        Object fragment=  JRouter.build("TestPresent").navigation();
-        Log.e("fragmentfragment"," 11111111= "+fragment.getClass().getName());
+        Object fragment = JRouter.build("TestPresent").navigation();
+        Log.e("fragmentfragment", " 11111111= " + fragment.getClass().getName());
         textView.setText(fragment.getClass().getName());
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Object fragment=  JRouter.build("TestPresent").navigation();
-                Log.e("fragmentfragment"," 11111111= "+fragment.getClass().getName());
+                Object fragment = JRouter.build("TestPresent").navigation();
+                Log.e("fragmentfragment", " 11111111= " + fragment.getClass().getName());
                 textView.setText(fragment.getClass().getName());
-//                JRouter.build("SecondActivity").navigation();
+                JRouter.build("SecondActivity").navigation();
             }
         });
     }

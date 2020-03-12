@@ -129,8 +129,8 @@ public class RouteAnnoProcessor extends AbstractProcessor {
         for (TypeElement element : set) {
             JRouter routeAnno = element.getAnnotation(JRouter.class);
 //            "mMap.put($S,$T.class)"
-            methodBuild.addStatement("mMap.put($S,$S)",
-                    routeAnno.path(), ClassName.get(element).reflectionName());
+            methodBuild.addStatement("mMap.put($S,$T.class)",
+                    routeAnno.path(), ClassName.get(element));
         }
         methodBuild.addCode("}");
         methodBuild.addCode("}");

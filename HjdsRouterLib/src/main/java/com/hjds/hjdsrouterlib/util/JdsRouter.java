@@ -2,6 +2,7 @@ package com.hjds.hjdsrouterlib.util;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 
 import com.hjds.jrouterannotation.JRouterProvider;
 
@@ -20,17 +21,17 @@ public class JdsRouter {
     private JdsRouter(String url) {
         mRoutePath = url;
         if (jRouterProvider == null) {
-            try {
-                Class clazz = Class.forName("com.hjds.hjdsrouterlib.JRouterProviderImp");
-                if (clazz != null)
-                    jRouterProvider = (JRouterProvider) clazz.newInstance();
-                mIntent = new Intent();
-            } catch (Exception e) {
-                e.printStackTrace();
+            synchronized (JdsRouter.class) {
+                try {
+                    Class clazz = Class.forName("com.hjds.hjdsrouterlib.JRouterProviderImp");
+                    if (clazz != null)
+                        jRouterProvider = (JRouterProvider) clazz.newInstance();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-        } else {
-            mIntent = new Intent();
         }
+        mIntent = new Intent();
     }
 
     public static JdsRouter build(String url) {
@@ -69,23 +70,25 @@ public class JdsRouter {
     }
 
     public Object navigation() {
-        if (mIntent != null) {
-            try {
-                String acturl = (String) jRouterProvider.getAllRouter().get(mRoutePath);
-                Class clazz = Class.forName(acturl);
-                if (Fragment.class.isAssignableFrom(clazz)) {
-                    Fragment fragment = (Fragment) clazz.newInstance();
-                    fragment.setArguments(mIntent.getExtras());
-                    return fragment;
-                } else if (Activity.class.isAssignableFrom(clazz)) {
-                    mIntent.setClass(ActivityLifecycleHelper.getLatestActivity(), clazz);
-                    ActivityLifecycleHelper.getLatestActivity().startActivity(mIntent);
-                } else {
-                    return clazz.newInstance();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+        try {
+            Class clazz = (Class) jRouterProvider.getAllRouter().get(mRoutePath);
+            if (clazz == null) {
+                Log.e("navigation", " acturl= " + mRoutePath + " clazz=null ");
+                return null;
             }
+//                Class clazz = Class.forName(acturl);
+            if (Fragment.class.isAssignableFrom(clazz)) {
+                Fragment fragment = (Fragment) clazz.newInstance();
+                fragment.setArguments(mIntent.getExtras());
+                return fragment;
+            } else if (Activity.class.isAssignableFrom(clazz)) {
+                mIntent.setClass(ActivityLifecycleHelper.getLatestActivity(), clazz);
+                ActivityLifecycleHelper.getLatestActivity().startActivity(mIntent);
+            } else {
+                return clazz.newInstance();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return null;
     }

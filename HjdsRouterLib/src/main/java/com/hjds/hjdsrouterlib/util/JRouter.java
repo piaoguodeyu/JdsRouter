@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 
-import com.hjds.jrouterannotation.JRouterProvider;
-
 import java.io.Serializable;
 
 import androidx.fragment.app.Fragment;
@@ -13,46 +11,46 @@ import androidx.fragment.app.Fragment;
 /**
  * @author zhangxiaowei 2020-03-07
  */
-public class JdsRouter {
+public class JRouter {
     String mRoutePath;
     Intent mIntent;
 
-    private JdsRouter(String url) {
+    private JRouter(String url) {
         mRoutePath = url;
         mIntent = new Intent();
     }
 
-    public static JdsRouter build(String url) {
-        return new JdsRouter(url);
+    public static JRouter build(String url) {
+        return new JRouter(url);
     }
 
 
-    public JdsRouter withSerializableObject(String key, Serializable value) {
+    public JRouter withSerializableObject(String key, Serializable value) {
         if (mIntent != null) mIntent.putExtra(key, value);
         return this;
     }
 
-    public JdsRouter withString(String key, String value) {
+    public JRouter withString(String key, String value) {
         if (mIntent != null) mIntent.putExtra(key, value);
         return this;
     }
 
-    public JdsRouter withBoolean(String key, boolean value) {
+    public JRouter withBoolean(String key, boolean value) {
         if (mIntent != null) mIntent.putExtra(key, value);
         return this;
     }
 
-    public JdsRouter withLong(String key, long value) {
+    public JRouter withLong(String key, long value) {
         if (mIntent != null) mIntent.putExtra(key, value);
         return this;
     }
 
-    public JdsRouter withInt(String key, int value) {
+    public JRouter withInt(String key, int value) {
         if (mIntent != null) mIntent.putExtra(key, value);
         return this;
     }
 
-    public JdsRouter withDouble(String key, double value) {
+    public JRouter withDouble(String key, double value) {
         if (mIntent != null) mIntent.putExtra(key, value);
         return this;
     }

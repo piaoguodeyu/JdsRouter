@@ -3,7 +3,7 @@ package com.hjds.hjdsrouterprocessor.router;
 
 import com.google.auto.service.AutoService;
 import com.hjds.hjdsrouterprocessor.AnnoLogger;
-import com.hjds.jrouterannotation.JRouter;
+import com.hjds.jrouterannotation.Router;
 import com.hjds.jrouterannotation.JRouterProvider;
 import com.hjds.jrouterannotation.XLRouteAnno;
 import com.squareup.javapoet.ClassName;
@@ -58,7 +58,7 @@ public class RouteAnnoProcessor extends AbstractProcessor {
 //        //1. 拿到所有注解
 //        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(XLRouteAnno.class);
         //1. 拿到所有注解
-        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(JRouter.class);
+        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Router.class);
 
         //2. 如果注解为空 ，则结束
         if (elements == null || elements.size() == 0) {
@@ -127,7 +127,7 @@ public class RouteAnnoProcessor extends AbstractProcessor {
         methodBuild.addCode("if (mMap.isEmpty()) {\n");
 
         for (TypeElement element : set) {
-            JRouter routeAnno = element.getAnnotation(JRouter.class);
+            Router routeAnno = element.getAnnotation(Router.class);
 //            "mMap.put($S,$T.class)"
             methodBuild.addStatement("mMap.put($S,$T.class)",
                     routeAnno.path(), ClassName.get(element));
@@ -234,7 +234,7 @@ public class RouteAnnoProcessor extends AbstractProcessor {
     @Override
     public Set<String> getSupportedAnnotationTypes() {
         //支持的注解类型
-        return Collections.singleton(JRouter.class.getName());
+        return Collections.singleton(Router.class.getName());
     }
 
     @Override

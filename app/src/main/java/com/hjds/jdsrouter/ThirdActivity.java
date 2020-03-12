@@ -3,11 +3,11 @@ package com.hjds.jdsrouter;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.hjds.jrouterannotation.JRouter;
+import com.hjds.jrouterannotation.Router;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-@JRouter(path = "ThirdActivity")
+@Router(path = "ThirdActivity")
 public class ThirdActivity extends AppCompatActivity {
 
     @Override

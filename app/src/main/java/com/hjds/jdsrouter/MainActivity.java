@@ -1,17 +1,16 @@
 package com.hjds.jdsrouter;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.hjds.hjdsrouterlib.util.JdsRouter;
-import com.hjds.jrouterannotation.JRouter;
+import com.hjds.hjdsrouterlib.util.JRouter;
+import com.hjds.jrouterannotation.Router;
 
-@JRouter(path = "MainActivity")
+@Router(path = "MainActivity")
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -21,16 +20,16 @@ public class MainActivity extends AppCompatActivity {
         MyFragment myFragment=new MyFragment();
         TextView textView = findViewById(R.id.tttttt);
         textView.setText(this.getClass().getName());
-        Object fragment=  JdsRouter.build("TestPresent").navigation();
+        Object fragment=  JRouter.build("TestPresent").navigation();
         Log.e("fragmentfragment"," 11111111= "+fragment.getClass().getName());
         textView.setText(fragment.getClass().getName());
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Object fragment=  JdsRouter.build("TestPresent").navigation();
+                Object fragment=  JRouter.build("TestPresent").navigation();
                 Log.e("fragmentfragment"," 11111111= "+fragment.getClass().getName());
                 textView.setText(fragment.getClass().getName());
-//                JdsRouter.build("SecondActivity").navigation();
+//                JRouter.build("SecondActivity").navigation();
             }
         });
     }

@@ -1,8 +1,10 @@
-package com.hjds.hjdsrouterlib.util;
+package com.hjds.hjdsrouterlib.router;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
+
+import com.hjds.hjdsrouterlib.util.ActivityLifecycleHelper;
 
 import java.io.Serializable;
 

@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.hjds.hjdsrouterlib.util.JRouter;
+import com.hjds.hjdsrouterlib.router.JRouter;
 import com.hjds.jrouterannotation.Router;
 
 @Router(path = "MainActivity")

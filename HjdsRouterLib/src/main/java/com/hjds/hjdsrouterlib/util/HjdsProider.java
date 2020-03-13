@@ -6,6 +6,8 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 
+import com.hjds.hjdsrouterlib.util.ActivityLifecycleHelper;
+
 /**
  * @author zhangxiaowei 2020-03-08
  */

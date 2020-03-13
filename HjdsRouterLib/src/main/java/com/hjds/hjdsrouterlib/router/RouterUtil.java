@@ -1,4 +1,4 @@
-package com.hjds.hjdsrouterlib.util;
+package com.hjds.hjdsrouterlib.router;
 
 import com.hjds.jrouterannotation.JRouterProvider;
 

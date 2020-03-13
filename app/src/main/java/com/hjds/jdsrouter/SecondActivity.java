@@ -6,7 +6,6 @@ import android.widget.TextView;
 import com.hjds.jrouterannotation.Router;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 @Router(path = "SecondActivity")
 public class SecondActivity extends AppCompatActivity {
 

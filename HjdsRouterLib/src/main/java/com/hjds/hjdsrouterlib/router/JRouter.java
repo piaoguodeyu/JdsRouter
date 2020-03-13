@@ -81,8 +81,27 @@ public class JRouter {
         return null;
     }
 
-    public void navigation(Activity mContext, int requestCode) {
-        if (mIntent != null) mContext.startActivityForResult(mIntent, requestCode);
+    public Object navigation(Activity context, int requestCode) {
+        try {
+            Class clazz = (Class) RouterUtil.getInstance().getAllRouter().get(mRoutePath);
+            if (clazz == null) {
+                Log.e("navigation", " acturl= " + mRoutePath + " clazz=null ");
+                return null;
+            }
+            if (Fragment.class.isAssignableFrom(clazz)) {
+                Fragment fragment = (Fragment) clazz.newInstance();
+                fragment.setArguments(mIntent.getExtras());
+                return fragment;
+            } else if (Activity.class.isAssignableFrom(clazz)) {
+                mIntent.setClass(context, clazz);
+                if (mIntent != null) context.startActivityForResult(mIntent, requestCode);
+            } else {
+                return clazz.newInstance();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

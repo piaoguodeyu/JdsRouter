@@ -2,7 +2,7 @@ package com.hjds.hjdsrouterprocessor.router;
 
 
 import com.google.auto.service.AutoService;
-import com.hjds.jrouterannotation.JRouterProvider;
+import com.hjds.jrouterannotation.RouterProvider;
 import com.hjds.jrouterannotation.Router;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
@@ -63,8 +63,8 @@ public class RouteAnnoProcessor extends AbstractProcessor {
     }
 
     public void saveToJava(Set<TypeElement> set) {
-        ClassName provider = ClassName.get(JRouterProvider.class);
-        TypeSpec.Builder mainActivityBuilder = TypeSpec.classBuilder("JRouterProviderImp")
+        ClassName provider = ClassName.get(RouterProvider.class);
+        TypeSpec.Builder mainActivityBuilder = TypeSpec.classBuilder("RouterProviderImp")
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(provider);
 

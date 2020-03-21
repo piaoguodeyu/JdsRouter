@@ -87,7 +87,7 @@ public class RouteAnnoProcessor extends AbstractProcessor {
                 .addModifiers(Modifier.PROTECTED, Modifier.STATIC);
 
         methodBuild.addCode("if (mMap.isEmpty()) {\n")
-                .addCode("synchronized (JRouterProviderImp.class) {\n");
+                .addCode("synchronized (RouterProviderImp.class) {\n");
         methodBuild.addCode("if (mMap.isEmpty()) {\n");
 
         for (TypeElement element : set) {

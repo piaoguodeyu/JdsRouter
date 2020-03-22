@@ -16,6 +16,15 @@ import androidx.fragment.app.Fragment;
 public class JRouter {
     String mRoutePath;
     Intent mIntent;
+    private static boolean mDebug;
+
+    public static boolean debug() {
+        return mDebug;
+    }
+
+    public static void setmDebug(boolean mDebug) {
+        JRouter.mDebug = mDebug;
+    }
 
     private JRouter(String url) {
         mRoutePath = url;
@@ -61,11 +70,12 @@ public class JRouter {
         try {
             Class clazz = RouterUtil.getInstance().get(mRoutePath);
             if (clazz == null) {
-                Log.e("navigation", " acturl= " + mRoutePath + " clazz=null ");
+                if (JRouter.mDebug) Log.e("navigation", " acturl= " + mRoutePath + " clazz=null ");
                 return null;
             }
 //                Class clazz = Class.forName(acturl);
-            Log.e("navigation", " acturl= " + mRoutePath + " clazz= " + clazz.getName());
+            if (JRouter.mDebug)
+                Log.e("navigation", " acturl= " + mRoutePath + " clazz= " + clazz.getName());
             if (Fragment.class.isAssignableFrom(clazz)) {
                 Fragment fragment = (Fragment) clazz.newInstance();
                 fragment.setArguments(mIntent.getExtras());
@@ -86,7 +96,7 @@ public class JRouter {
         try {
             Class clazz = RouterUtil.getInstance().get(mRoutePath);
             if (clazz == null) {
-                Log.e("navigation", " acturl= " + mRoutePath + " clazz=null ");
+                if (JRouter.mDebug) Log.e("navigation", " acturl= " + mRoutePath + " clazz=null ");
                 return null;
             }
             if (Fragment.class.isAssignableFrom(clazz)) {

@@ -23,17 +23,18 @@ class RouterUtil {
             synchronized (RouterUtil.class) {
                 if (mMap == null) {
                     try {
-                        Log.e("clazzclazzclazz", " 9999999999999= "+RouterProvider.class.getPackage().getName() );
                         List<String> list = getClassName("com.hjds.routerlibs");
                         for (String clazz : list) {
                             try {
-                                Log.e("clazzclazzclazz", " 2222222= " + clazz);
+                                if (JRouter.debug())
+                                    Log.e("clazzclazzclazz", " 2222222= " + clazz);
                                 Class.forName(clazz);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
-                        Log.e("clazzclazzclazz", " 3333333333= "+list.size() );
+                        if (JRouter.debug())
+                            Log.e("clazzclazzclazz", " 3333333333= " + list.size());
                         mMap = RouterProvider.mMap;
                     } catch (Exception e) {
                         e.printStackTrace();

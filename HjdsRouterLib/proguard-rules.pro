@@ -28,3 +28,9 @@
 #-keep class com.hjds.routerlibs.** { *; }
 
 
+
+-keep public class com.hjds.hjdsrouterlib.util.ActivityLifecycleHelper {*;}
+-keep public class com.hjds.hjdsrouterlib.router.JRouter {*;}
+-keep class * extends java.lang.annotation.Annotation { *; }
+-keep interface * extends java.lang.annotation.Annotation { *; }
+-keep class * implements com.hjds.jrouterannotation.RouterProvider { *; }

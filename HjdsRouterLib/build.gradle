@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 //group='com.github.piaoguodeyu'
 apply plugin: 'com.github.dcendents.android-maven'
 
-group='com.github.piaoguodeyu'
+group = 'com.github.piaoguodeyu'
 android {
     compileSdkVersion 28
 
@@ -17,11 +17,11 @@ android {
     buildTypes {
         debug {
             debuggable true
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -29,7 +29,21 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
-
+    /** 打包成jar **/
+    task makeJar(type: Copy) {
+        //删除存在的
+        delete 'build/libs/OpenSdk.jar'
+        //设置要拷贝文件的路径；[如果没有bundles文件夹，则将bundles替换成packaged-classes]
+        from('build/intermediates/bundles/debug/')
+        //设置存放jar的文件目录
+        into('build/libs/')
+        //include ,exclude参数来设置过滤
+        //将classes.jar放入build/libs/目录下（我们只关心classes.jar这个文件）
+        include('classes.jar')
+        //重命名
+        rename('classes.jar', 'OpenSdk.jar')
+    }
+    makeJar.dependsOn(build)
 }
 
 dependencies {

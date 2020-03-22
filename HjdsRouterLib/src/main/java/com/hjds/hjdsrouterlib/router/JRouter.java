@@ -59,12 +59,13 @@ public class JRouter {
 
     public Object navigation() {
         try {
-            Class clazz = (Class) RouterUtil.getInstance().getAllRouter().get(mRoutePath);
+            Class clazz = RouterUtil.getInstance().get(mRoutePath);
             if (clazz == null) {
                 Log.e("navigation", " acturl= " + mRoutePath + " clazz=null ");
                 return null;
             }
 //                Class clazz = Class.forName(acturl);
+            Log.e("navigation", " acturl= " + mRoutePath + " clazz= " + clazz.getName());
             if (Fragment.class.isAssignableFrom(clazz)) {
                 Fragment fragment = (Fragment) clazz.newInstance();
                 fragment.setArguments(mIntent.getExtras());
@@ -83,7 +84,7 @@ public class JRouter {
 
     public Object navigation(Activity context, int requestCode) {
         try {
-            Class clazz = (Class) RouterUtil.getInstance().getAllRouter().get(mRoutePath);
+            Class clazz = RouterUtil.getInstance().get(mRoutePath);
             if (clazz == null) {
                 Log.e("navigation", " acturl= " + mRoutePath + " clazz=null ");
                 return null;

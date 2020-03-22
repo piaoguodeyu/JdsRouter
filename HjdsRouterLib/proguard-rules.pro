@@ -20,9 +20,11 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 #-keep @com.hjds.jrouterannotation.Router class * {*;}
--keep public class com.hjds.hjdsrouterlib.util.ActivityLifecycleHelper {*;}
--keep public class com.hjds.hjdsrouterlib.router.JRouter {*;}
--keep class * extends java.lang.annotation.Annotation { *; }
--keep interface * extends java.lang.annotation.Annotation { *; }
+#-keep public class com.hjds.hjdsrouterlib.util.ActivityLifecycleHelper {*;}
+#-keep public class com.hjds.hjdsrouterlib.router.JRouter {*;}
+#-keep class * extends java.lang.annotation.Annotation { *; }
+#-keep interface * extends java.lang.annotation.Annotation { *; }
+#-keep class * implements com.hjds.jrouterannotation.RouterProvider { *; }
+#-keep class com.hjds.routerlibs.** { *; }
 
 

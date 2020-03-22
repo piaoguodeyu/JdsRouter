@@ -1,7 +1,9 @@
 package com.hjds.hjdsrouterlib.util;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 
 import java.util.LinkedList;
@@ -10,23 +12,33 @@ import java.util.List;
 /**
  * @author zhangxiaowei 2020-03-08
  */
+@SuppressLint("NewApi")
 public class ActivityLifecycleHelper implements Application.ActivityLifecycleCallbacks {
 
     private static ActivityLifecycleHelper singleton;
-    private static final Object lockObj = new Object();
     private static List<Activity> activities;
+    static Context application;
 
     private ActivityLifecycleHelper() {
         activities = new LinkedList<>();
     }
 
+    public static void setApplication(Context context) {
+        application = context;;
+    }
+
     public static ActivityLifecycleHelper build() {
-        synchronized (lockObj) {
+
+        synchronized (ActivityLifecycleHelper.class) {
             if (singleton == null) {
                 singleton = new ActivityLifecycleHelper();
             }
             return singleton;
         }
+    }
+
+    public static Context getApplication() {
+        return application;
     }
 
     @Override

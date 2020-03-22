@@ -1,10 +1,10 @@
 package com.hjds.jrouterannotation;
 
-import java.util.Map;
+import java.util.HashMap;
 
 /**
  * @author zhangxiaowei 2020-03-07
  */
 public interface RouterProvider {
-    Map getAllRouter();
+    HashMap<String,Class> mMap = new HashMap();
 }

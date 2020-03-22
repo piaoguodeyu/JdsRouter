@@ -1,4 +1,4 @@
-package com.hjds.hjdsrouterlib.util;
+package com.hjds.hjdsrouterlib.router;
 
 import android.app.Application;
 import android.content.ContentProvider;
@@ -14,8 +14,10 @@ import com.hjds.hjdsrouterlib.util.ActivityLifecycleHelper;
 public class HjdsProider extends ContentProvider {
     @Override
     public boolean onCreate() {
+        ActivityLifecycleHelper.setApplication(getContext());
         ((Application) getContext()).
                 registerActivityLifecycleCallbacks(ActivityLifecycleHelper.build());
+        RouterUtil.getInstance();
         return false;
     }
 

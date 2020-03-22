@@ -5,14 +5,13 @@ import com.google.auto.service.AutoService;
 import com.hjds.jrouterannotation.RouterProvider;
 import com.hjds.jrouterannotation.Router;
 import com.squareup.javapoet.ClassName;
-import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -24,23 +23,36 @@ import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic;
 
 
 @AutoService(Processor.class)
 @SupportedOptions("moduleName")
 public class RouteAnnoProcessor extends AbstractProcessor {
+    String moduleName;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
         //拿到模块的build.gradle里 arguments = [moduleName : project.getName()]
+        Map<String, String> options = processingEnv.getOptions();
+        if (options == null || options.isEmpty()) {
+            return;
+        }
+        moduleName = options.get("jdsModuleName");
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-
-//        //1. 拿到所有注解
-//        Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(XLRouteAnno.class);
+        if (moduleName == null || moduleName.equals("")) {
+            processingEnv.getMessager().printMessage(Diagnostic.Kind.ERROR, "请在defaultConfig里配置\n" +
+                    "javaCompileOptions {\n" +
+                    "            annotationProcessorOptions {\n" +
+                    "                arguments = [jdsModuleName: project.getName()]\n" +
+                    "            }\n" +
+                    "        }");
+            return true;
+        }
         //1. 拿到所有注解
         Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(Router.class);
 
@@ -63,58 +75,68 @@ public class RouteAnnoProcessor extends AbstractProcessor {
     }
 
     public void saveToJava(Set<TypeElement> set) {
+        processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, "RouteAnnoProcessorRouteAnno+moduleName=- " + moduleName);
         ClassName provider = ClassName.get(RouterProvider.class);
-        TypeSpec.Builder mainActivityBuilder = TypeSpec.classBuilder("RouterProviderImp")
+
+
+        String clazzName = "RouterProviderImp" + "$" + moduleName;
+        TypeSpec.Builder mainActivityBuilder = TypeSpec.classBuilder(clazzName)
                 .addModifiers(Modifier.PUBLIC)
                 .addSuperinterface(provider);
 
-        MethodSpec constructorBuilder = MethodSpec.constructorBuilder()
-                .addStatement("        initData()")
-                .addModifiers(Modifier.PUBLIC).build();
+//        MethodSpec constructorBuilder = MethodSpec.constructorBuilder()
+//                .addStatement("        initData()")
+//                .addModifiers(Modifier.PUBLIC).build();
 
 
-        mainActivityBuilder.addMethod(constructorBuilder);
-        ClassName hashmap = ClassName.get(HashMap.class);
-        FieldSpec filedspec = FieldSpec.builder(hashmap, "mMap")
-                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
-                .initializer("new $T()", hashmap).build();
+//        mainActivityBuilder.addMethod(constructorBuilder);
+//        ClassName hashmap = ClassName.get(HashMap.class);
+//        FieldSpec filedspec = FieldSpec.builder(hashmap, "mMap")
+//                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
+//                .initializer("new $T()", hashmap).build();
 
-        mainActivityBuilder.addField(filedspec);
+//        mainActivityBuilder.addField(filedspec);
 
 
-        MethodSpec.Builder methodBuild = MethodSpec.methodBuilder("initData")
+//        MethodSpec.Builder methodBuild = MethodSpec.methodBuilder("initData")
 //                .addAnnotation(override)
-                .addModifiers(Modifier.PROTECTED, Modifier.STATIC);
+//                .addModifiers(Modifier.PROTECTED, Modifier.STATIC);
 
-        methodBuild.addCode("if (mMap.isEmpty()) {\n")
-                .addCode("synchronized (RouterProviderImp.class) {\n");
-        methodBuild.addCode("if (mMap.isEmpty()) {\n");
 
+//        methodBuild.addCode("if (mMap.isEmpty()) {\n")
+//                .addCode("synchronized (RouterProvider.class) {\n");
+//        methodBuild.addCode("if (mMap.isEmpty()) {\n");
+
+        CodeBlock.Builder codeBlock = CodeBlock.builder();
         for (TypeElement element : set) {
             Router routeAnno = element.getAnnotation(Router.class);
 //            "mMap.put($S,$T.class)"
-            methodBuild.addStatement("mMap.put($S,$T.class)",
+//            methodBuild.addStatement("mMap.put($S,$T.class)",
+//                    routeAnno.path(), ClassName.get(element));
+            codeBlock.addStatement("mMap.put($S,$T.class)",
                     routeAnno.path(), ClassName.get(element));
         }
-        methodBuild.addCode("}");
-        methodBuild.addCode("}");
-        methodBuild.addCode("}");
-        MethodSpec onCreate = methodBuild
-//                .addParameter(savedInstanceState)
+//        methodBuild.addCode("}");
+//        methodBuild.addCode("}");
+//        methodBuild.addCode("}");
+//        MethodSpec onCreate = methodBuild
+//                .build();
+
+
+//        MethodSpec impmethod = MethodSpec.methodBuilder("getAllRouter")
+//                .addAnnotation(Override.class)
+//                .addModifiers(Modifier.PUBLIC)
+//                .addStatement("return mMap")
+//                .returns(hashmap).build();
+//        mainActivityBuilder.addMethod(impmethod);
+
+
+        TypeSpec mainActivity = mainActivityBuilder
+//                .addMethod(onCreate)
+                .addStaticBlock(codeBlock.build())
                 .build();
 
-
-        MethodSpec impmethod = MethodSpec.methodBuilder("getAllRouter")
-                .addAnnotation(Override.class)
-                .addModifiers(Modifier.PUBLIC)
-                .addStatement("return mMap")
-                .returns(hashmap).build();
-        mainActivityBuilder.addMethod(impmethod);
-
-        TypeSpec mainActivity = mainActivityBuilder.addMethod(onCreate)
-                .build();
-
-        JavaFile file = JavaFile.builder("com.hjds.hjdsrouterlib", mainActivity).build();
+        JavaFile file = JavaFile.builder("com.hjds.routerlibs", mainActivity).build();
 
         try {
             file.writeTo(processingEnv.getFiler());

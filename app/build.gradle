@@ -10,39 +10,39 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        javaCompileOptions {
-//            //配置注解处理器参数
-//            annotationProcessorOptions {
-//                arguments = [moduleName: defaultConfig.getName()]
-//            }
-//        }
-    }
-    buildTypes {
-        debug {
-            debuggable true
-            minifyEnabled true
-            zipAlignEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [jdsModuleName: project.getName()]
+            }
         }
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        buildTypes {
+            debug {
+                debuggable true
+                minifyEnabled true
+                zipAlignEnabled true
+                shrinkResources true
+                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            }
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            }
+        }
+        compileOptions {
+            sourceCompatibility = 1.8
+            targetCompatibility = 1.8
         }
     }
-    compileOptions {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-    }
-}
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    annotationProcessor project(":HjdsRouterProcessor")
-    api project(path: ':HjdsRouterLib')
+    dependencies {
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+        implementation 'androidx.appcompat:appcompat:1.0.2'
+        implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+        testImplementation 'junit:junit:4.12'
+        androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+        androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+        annotationProcessor project(":HjdsRouterProcessor")
+        implementation project(path: ':HjdsRouterLib')
+        implementation project(path: ':LoginLib')
+    }
 }

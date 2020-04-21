@@ -5,8 +5,15 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.util.Log;
 
 import com.hjds.hjdsrouterlib.util.ActivityLifecycleHelper;
+
+import java.net.URL;
+import java.util.Enumeration;
+
+import dalvik.system.DexFile;
+import dalvik.system.PathClassLoader;
 
 /**
  * @author zhangxiaowei 2020-03-08

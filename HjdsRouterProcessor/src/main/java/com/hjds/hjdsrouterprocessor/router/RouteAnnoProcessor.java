@@ -2,11 +2,12 @@ package com.hjds.hjdsrouterprocessor.router;
 
 
 import com.google.auto.service.AutoService;
-import com.hjds.jrouterannotation.RouterProvider;
 import com.hjds.jrouterannotation.Router;
+import com.hjds.jrouterannotation.RouterProvider;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
 import com.squareup.javapoet.JavaFile;
+import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
 
 import java.util.Collections;
@@ -85,11 +86,11 @@ public class RouteAnnoProcessor extends AbstractProcessor {
                 .addSuperinterface(provider);
 
 //        MethodSpec constructorBuilder = MethodSpec.constructorBuilder()
-//                .addStatement("        initData()")
+//                .addStatement("init()")
 //                .addModifiers(Modifier.PUBLIC).build();
-
-
 //        mainActivityBuilder.addMethod(constructorBuilder);
+
+
 //        ClassName hashmap = ClassName.get(HashMap.class);
 //        FieldSpec filedspec = FieldSpec.builder(hashmap, "mMap")
 //                .addModifiers(Modifier.PRIVATE, Modifier.STATIC)
@@ -98,11 +99,11 @@ public class RouteAnnoProcessor extends AbstractProcessor {
 //        mainActivityBuilder.addField(filedspec);
 
 
-//        MethodSpec.Builder methodBuild = MethodSpec.methodBuilder("initData")
+        MethodSpec.Builder methodBuild = MethodSpec.methodBuilder("init")
 //                .addAnnotation(override)
-//                .addModifiers(Modifier.PROTECTED, Modifier.STATIC);
+                .addModifiers(Modifier.PUBLIC, Modifier.STATIC);
 
-
+        mainActivityBuilder.addMethod(methodBuild.build());
 //        methodBuild.addCode("if (mMap.isEmpty()) {\n")
 //                .addCode("synchronized (RouterProvider.class) {\n");
 //        methodBuild.addCode("if (mMap.isEmpty()) {\n");
@@ -137,14 +138,16 @@ public class RouteAnnoProcessor extends AbstractProcessor {
                 .build();
 
         JavaFile file = JavaFile.builder("com.hjds.routerlibs", mainActivity).build();
-
+        log("88888888888888888888888888");
         try {
             file.writeTo(processingEnv.getFiler());
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-
+    private void log(String msg) {
+        processingEnv.getMessager().printMessage(Diagnostic.Kind.WARNING, msg);
     }
 
     @Override
@@ -158,5 +161,4 @@ public class RouteAnnoProcessor extends AbstractProcessor {
         //
         return SourceVersion.latestSupported();
     }
-
 }

@@ -2,13 +2,14 @@ apply plugin: 'java-library'
 //apply plugin: 'com.github.dcendents.android-maven'
 //group='com.github.piaoguodeyu'
 dependencies {
-    api fileTree(dir: 'libs', include: ['*.jar'])
+    api fileTree(include: ['*.jar'], dir: 'libs')
     //javaPoet可以更方便的创建java文件
     api 'com.squareup:javapoet:1.9.0'
     //auto-service可以帮我们把编译注解自动注册到项目中
     api 'com.google.auto.service:auto-service:1.0-rc3'
     api project(path: ':JRouterAnnotation')
     annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'
+//    implementation files('libs/javassist.jar')
 }
 
 sourceCompatibility = "1.8"

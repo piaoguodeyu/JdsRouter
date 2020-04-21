@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.hjds.hjdsrouterlib.util.ActivityLifecycleHelper;
+import com.hjds.jrouterannotation.RouterProvider;
 
 import java.io.Serializable;
 
@@ -16,7 +17,7 @@ import androidx.fragment.app.Fragment;
 public class JRouter {
     String mRoutePath;
     Intent mIntent;
-    private static boolean mDebug;
+    private static boolean mDebug = true;
 
     public static boolean debug() {
         return mDebug;
@@ -24,6 +25,8 @@ public class JRouter {
 
     public static void setmDebug(boolean mDebug) {
         JRouter.mDebug = mDebug;
+        if (mDebug)
+            Log.e("routertime", " time= " + RouterUtil.time + " " + RouterProvider.mMap.toString());
     }
 
     private JRouter(String url) {
